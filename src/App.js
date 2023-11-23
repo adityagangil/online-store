@@ -7,6 +7,8 @@ import Home from './components/Home';
 import Store from './components/Store';
 import About from './components/About';
 import Cart from './components/Cart';
+import ContactUs from './components/ContactUs';
+
 
 function App() {
   const [cartElements, setCartElements] = useState([]);
@@ -34,6 +36,7 @@ function App() {
                 <Nav.Link as={NavLink} to="/" exact style={{ fontSize: '30px', marginRight: '50px' }}>Home</Nav.Link>
                 <Nav.Link as={NavLink} to="/store" style={{ fontSize: '30px', marginRight: '50px' }}>Store</Nav.Link>
                 <Nav.Link as={NavLink} to="/about" style={{ fontSize: '30px', marginRight: '50px' }}>About</Nav.Link>
+                <Nav.Link as={NavLink} to="/contactus" style={{ fontSize: '30px', marginRight: '50px' }}>ContactUs</Nav.Link>
               </Nav>
               <Nav>
                 <Nav.Link
@@ -54,6 +57,7 @@ function App() {
           <Route path="/" element={<Home addToCart={addToCart} />} />
           <Route path="/store" element={<Store addToCart={addToCart} />} />
           <Route path="/about" element={<About />} />
+          <Route path="/contactus" element={<ContactUs />} />
         </Routes>
 
         {isCartOpen && (

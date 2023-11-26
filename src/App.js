@@ -8,8 +8,7 @@ import Store from './components/Store';
 import About from './components/About';
 import Cart from './components/Cart';
 import ContactUs from './components/ContactUs';
-import Login from './components/Login';
-
+import AuthForm from './components/AuthForm';
 
 function App() {
   const [cartElements, setCartElements] = useState([]);
@@ -60,7 +59,7 @@ function App() {
           <Route path="/store" element={<Store addToCart={addToCart} />} />
           <Route path="/about" element={<About />} />
           <Route path="/contactus" element={<ContactUs />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<AuthForm/>} />
         </Routes>
 
         {isCartOpen && (

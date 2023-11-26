@@ -48,8 +48,7 @@ const Login = ({ onLogin }) => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </Form.Group>
-
+        </Form.Group><br></br>
         <Button variant="primary" type="button" onClick={handleLogin}>
           Login
         </Button>

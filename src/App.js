@@ -1,5 +1,5 @@
 // App.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, NavLink, Routes } from 'react-router-dom';
 import { Container, Navbar, Nav, Badge } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -13,15 +13,69 @@ import AuthForm from './components/AuthForm';
 function App() {
   const [cartElements, setCartElements] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [userEmail, setUserEmail] = useState(""); // Add state to store user email
+
+  useEffect(() => {
+    // Simulate user login. Replace this with actual user authentication logic.
+    setUserEmail("adityagangil2001@gmail.com");
+  }, []);
 
   const addToCart = (product) => {
+    // Update the local state
     setCartElements([...cartElements, { ...product, quantity: 1 }]);
+    
+    // Update the backend
+    const sanitizedEmail = sanitizeEmail(userEmail);
+    const endpoint = `/cart${sanitizedEmail}`;
+    const apiUrl = `https://crudcrud.com/api/023a1271dfb94277b59c7978e34b9e9c${endpoint}`;
+
+    fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ cartItems: [...cartElements, { ...product, quantity: 1 }] }),
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to add product to cart');
+      }
+    })
+    .catch(error => {
+      console.error(error);
+    });
   };
 
   const removeFromCart = (index) => {
+    // Update the local state
     const updatedCart = [...cartElements];
     updatedCart.splice(index, 1);
     setCartElements(updatedCart);
+
+    // Update the backend
+    const sanitizedEmail = sanitizeEmail(userEmail);
+    const endpoint = `/cart${sanitizedEmail}`;
+    const apiUrl = `https://crudcrud.com/api/YOUR_CRUD_API_KEY${endpoint}`;
+
+    fetch(apiUrl, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ cartItems: updatedCart }),
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to update cart');
+      }
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  };
+
+  const sanitizeEmail = (email) => {
+    return email.replace(/\.|@/g, '');
   };
 
   return (
@@ -29,7 +83,7 @@ function App() {
       <div>
         <Navbar bg="light" expand="lg">
           <Container>
-            <Navbar.Brand href="#home" style={{ fontSize: '30px', marginRight: '45vh' }}>The Generics</Navbar.Brand>
+            <Navbar.Brand href="#home" style={{ fontSize: '30px', marginRight: '20vh' }}>The Generics</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="mr-auto">
